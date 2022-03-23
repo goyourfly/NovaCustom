@@ -1387,6 +1387,9 @@ public class Player implements IPlayerControl,
                 sendData[0] = 1;
                 sendData[1] = 2;
             }
+            if (mSurfaceHolder == null || mSurfaceHolder.getSurface() == null){
+                return;
+            }
             PixelCopy.request(mSurfaceHolder.getSurface(), bitmap, new PixelCopy.OnPixelCopyFinishedListener() {
                 @Override
                 public void onPixelCopyFinished(int code) {
