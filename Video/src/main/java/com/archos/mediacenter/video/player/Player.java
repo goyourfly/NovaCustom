@@ -1355,7 +1355,7 @@ public class Player implements IPlayerControl,
         private int port = 21234;
         private byte[] sendData;
 
-        public WLEDHandler(Looper looper, Player player)  {
+        public WLEDHandler(Looper looper, Player player) {
             super(looper);
             this.player = player;
             try {
@@ -1403,8 +1403,8 @@ public class Player implements IPlayerControl,
 //                    } catch (IOException e) {
 //                        e.printStackTrace();
 //                    }
-                    canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-                    for (int i = 0 ; i < wledList.size(); i++) {
+//                        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+                    for (int i = 0; i < wledList.size(); i++) {
                         Rect rect = wledList.get(i);
                         int[] pixels = new int[rect.width() * rect.height()];
                         bitmap.getPixels(pixels, 0, rect.width(), rect.left, rect.top, rect.width(), rect.height());
@@ -1418,10 +1418,10 @@ public class Player implements IPlayerControl,
                             g += Color.green(pixels[x]);
                             b += Color.blue(pixels[x]);
                         }
-                        r = r/count;
-                        g = g/count;
-                        b = b/count;
-                        int color = Color.rgb(r,g,b);
+                        r = r / count;
+                        g = g / count;
+                        b = b / count;
+                        int color = Color.rgb(r, g, b);
                         paint.setColor(color);
                         canvas.drawRect(rect, paint);
 
@@ -1431,7 +1431,7 @@ public class Player implements IPlayerControl,
                         sendData[5 + i * 4] = (byte) b;
                     }
 
-                    ((PlayerActivity)mContext).previewBitmap(bitmap2);
+                    ((PlayerActivity) mContext).previewBitmap(bitmap2);
 //                    try {
 //                        FileOutputStream fileOutputStream = new FileOutputStream(file2);
 //                        bitmap2.compress(Bitmap.CompressFormat.JPEG, 70, fileOutputStream);
@@ -1445,12 +1445,13 @@ public class Player implements IPlayerControl,
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    long interval = System.currentTimeMillis() - t1;
                     t1 = System.currentTimeMillis();
+                    if (player.mMediaPlayer.isPlaying()) {
+                        sendEmptyMessageDelayed(0, Math.max(16 - interval, 0));
+                    }
                 }
             }, this);
-            if (player.mMediaPlayer.isPlaying()) {
-                sendEmptyMessageDelayed(0, 16);
-            }
         }
     }
 }
