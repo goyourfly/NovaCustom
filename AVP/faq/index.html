@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Nova Video Player - FAQ</title>
+
+  <meta name="format-detection" content="telephone=no">
+  <link rel="icon" href="https://home.courville.org/nova_video_player-faq/images/favicon.ico">
+  <link rel="shortcut icon" href="https://home.courville.org/nova_video_player-faq/images/favicon.ico">
+  <link rel="stylesheet" href="./style.css">
+  <meta name="viewport" content="width=device-width, height=device-height, user-scalable=no">
+</head>
+<body class="page1" id="top">
+  <!--==============================
+  header
+  =================================-->
+  <div class="main">
+    <header>
+          <div>
+            <table>
+              <tbody><tr>
+                <td>
+                  <img src="./logo.png" id="logo" alt="">
+                </td>
+                <td>
+                  <div id="title">Nova Video Player</div>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+      <div style="clear:both;"></div>
+    </header>
+    <!--=====================
+    Content
+    ======================-->
+    <section id="content">
+<h2>What is Nova Video Player?</h2>
+
+<p>NOVA is an opeN sOurce Video plAyer designed for Android devices (tablets, phones and TVs). <br />
+This application is based on a fork of Archos Video Player open-source release, intended to support new features with an enhanced stability.</p>
+
+<p>NOVA is published on <a href="https://play.google.com/store/apps/details?id=org.courville.nova">GooglePlay</a> or on <a href="https://www.amazon.fr/dp/B07P1Q1DG9">Amazon Appstore</a> or on <a href="https://appgallery.huawei.com/#/app/C102811509">Huawei AppGallery</a> or on <a href="https://f-droid.org/en/packages/org.courville.nova/">F-Droid</a> or directly on <a href="https://github.com/nova-video-player/aos-AVP/releases">github</a>. 
+Latest changes are tracked <a href="https://github.com/nova-video-player/aos-AVP/blob/nova/CHANGELOG.md">here</a>.</p>
+
+<p>Please note that NOVA is free and consists in a small community effort done on personal time.</p>
+
+<h2>I have just downloaded Nova Video Player and it shows no video.</h2>
+
+<p>On a fresh start, the discovery process for videos stored on local storage can take some time. <br />
+Nova Video Player is just a video player and does not point to any streaming service. If you do not have already video content on your device no videos will be displayed.</p>
+
+<p>Network shares can also be added as video sources.</p>
+
+<h2>What is the difference between passthrough mode 1 and passthrough mode 2?</h2>
+
+<p>Audio passthrough amounts to transmit through HDMI interface compressed sound channels directly to your AV receiver that will perform the decoding and rendering. It is thus a feature targeted for Android TV or TV boxes. <br />
+On Nova Video Player, two experimental audio passthrough modes are supported:  </p>
+
+<ul>
+<li>Mode 1 targets TV boxes with early versions of Android (up to Kitkat 4.4). Note that on some devices you need to set the sound volume to maximum (so that the streams are not altered by the sound mixer).</li>
+<li>Mode 2 targets latest versions of Android above 5.1 (Nvidia Shield TV and télévision Android TV).</li>
+</ul>
+
+<p>You might have to try the two modes and figure out what suits you best depending on the multi-channel audio codec used in your video files.</p>
+
+<p>Note that:</p>
+
+<ul>
+<li>when using an Android TV box (not an Android TV TV) directly connected via HDMI to your AV multichannel receiver and thus not through ARC, multichannel support can be achieved through multichannel PCM which is natively supported by Nova without the need to activate passthrough;</li>
+<li>multichannel PCM or AAC is not supported via ARC (eARC is required) resulting in stereo output</li>
+</ul>
+
+<p>More details are available <a href="https://github.com/nova-video-player/aos-AVP/wiki/Audio-and-passthrough">here</a>.</p>
+
+<h2>Some videos play really slowly on my device.</h2>
+
+<p>Nova Video Player relies on the hardware acceleration capabilities of the product it runs on. For instance some products do not support HEVC(H.265) hardware decoding and revert to software decoding yielding to a choppy video playback.  </p>
+
+<p>In any case please make sure that you have not forced software decoding in the settings of Nova Video Player (Settings/Software decoding).</p>
+
+<h2>How multimedia information is retrieved?</h2>
+
+<p>Nova relies on external services to retrieve multimedia information (descriptions and posters/backdrops) based on your video collection:</p>
+
+<ul>
+<li><a href="https://www.thetvdb.com/">TheTVDB</a> is used for TV shows</li>
+<li><a href="https://www.themoviedb.org/">The Movie Database TMDB</a> is used for movies</li>
+</ul>
+
+<p>If you experience issues in the automatic scrape process, please check that it is not a backend service issue by directly seaching your movie/show on the <a href="https://thetvdb.com/search?query=">TheTVDB</a> or <a href="https://www.themoviedb.org/">TMDB</a>.</p>
+
+<p>More details are availble <a href="https://github.com/nova-video-player/aos-AVP/wiki/Scrape:-retrieve-video-meta-data">here</a> and <a href="https://github.com/nova-video-player/aos-AVP/wiki/Indexing">here</a>.</p>
+
+<p>Note that on Sony Android TVs, a rescan of USB disk is triggered at each power up/return from suspend and it is a Sony bug (cf. <a href="https://github.com/nova-video-player/aos-AVP/issues/354">here</a>).</p>
+
+<h2>Nova Video Player can’t find information on some of my videos, I’d like to add them manually.</h2>
+
+<p>Nova Video Player supports NFO file description format that follows the <a href="http://kodi.wiki/view/NFO_files/Movies">Kodi specification</a>.Advanced users can manually create them or use a dedicated tool for this task. More details are available <a href="https://github.com/nova-video-player/aos-AVP/wiki/NFO-files">here</a>.</p>
+
+<h2>What type of subtitles are supported?</h2>
+
+<p>SRT, SUB subtitles are supported. SSA support is rudimentary. PGS subs are not yet supported.</p>
+
+<h2>Which network shares are supported?</h2>
+
+<p>Nova Video Player supports adding videos on network shares using SMB, SFTP, FTP and FTPS protocols.
+Note that:</p>
+
+<ul>
+<li>Nova is only compatible with ftp(s) servers supporting "recent" 2007 MLST command (<a href="https://tools.ietf.org/html/rfc3659">RFC3659</a>), e.g. with proftpd but NOT with vsftpd;</li>
+<li>SMB1/2/3 are supported since v5.x version of Nova;</li>
+<li>Nova has UPnP support but issues can be experienced with remote subtitles support (UPnP has no native support for srt files). Nova is reported not to be compatible with Serviio media server.</li>
+</ul>
+
+<h2>Blue screen starting nova</h2>
+
+<p>If you get an empty blue screen at application start, just reboot your device to get in a sane state.</p>
+
+<h2>Trakt complains about no Internet connection</h2>
+
+<p>Trakt can report that there is no Internet connection when you use specific adblocking or a Pi-hole. In order to overcome this issue you need to whitelist these domains:</p>
+
+<p><code>
+static.criteo.net
+www.google-analytics.com
+stats.g.doubleclick.net
+</code></p>
+
+<h2>Dolby Vision and HDR</h2>
+
+<p>Dolby Vision and HDR support on AndroidTV depends on your TV capabilities, AV receiver passthrough compatibility and TV box hardware specification. This multifactor dependency is prone for confusion. </p>
+
+<p>Note that specific patches have been integrated in Nova v6.0.33 to improve DOVI support.</p>
+
+<p>Dolby Vision requires specific HW support and TV box constructor in certain cases have to pay a specific license to benefit from this feature. This is the case for Amlogic S905Xx based hardware. Cheap chinese non certified hardware might not fullfil this requirement.</p>
+
+<h2>Visibility of external USB drive after Nvidia Shield Android 11+ update</h2>
+
+<p>In order to identify multimedia files, Nova relies on Android media scanning for local storage and USB storage. On latest version of the OS, Nvidia shield disables external storage Android indexing for performance enhancements. In order to get back external storage video files visibility, you need to enter Android settings/Device Preferences/Storage and enable Scan for media automatically option.</p>
+
+<p>Alternatively you can expose in the same setting the local USB drive via SMB  (Mount network storage option) and then use Nova SMB network shares indexing.</p>
+
+<h2>Pre-releases and Nova v5.xx to v6.xx migration</h2>
+
+<p>Nova v6.xx pre-release is available on <a href="https://github.com/nova-video-player/aos-AVP/releases">Github</a>:</p>
+
+<ul>
+<li>This new version upgrades the internal nova media database to a new scheme and any downgrade to v5 version of nova will wipe out your entire video collection to prevent any incompatibility.</li>
+<li>This version switches to theMovieDb for retrieving TV shows information instead of theTvDb. It is strongly recommended to rescrape all your TV shows or <strong><em>best to start from a fresh install</em></strong>.</li>
+<li>Instead of going through a fresh install for proper support for movie collections and animation movies/series on AndroidTV you can perform the following manual steps. Acquisition of the additional movie collection informations and movies/TV series genres realignment requires a full rescrape of your video without interference of existing .nfo files (that do not yet contain the required information). For that purpose the following steps should do the trick:
+<ul>
+<li>backup all your customized handcrafted .nfo file (if you have any)</li>
+<li>install nova version 6.xx</li>
+<li>in nova settings unselect "process '.nfo' files"</li>
+<li>in nova settings launch a "rescrape all" and wait for completion</li>
+<li>in nova settings launch an "export already scraped videos" and wait for completion (<strong>this step will override any existing .nfo file</strong>)</li>
+</ul></li>
+<li>versions later than v6.0.30 targets API31 and due to Android storage restrictions for API30, local NFO/JPG media information files for videos stored on local storage have been moved to nova public application folder located /sdcard/Android/data/org.courville.nova/files/nfoPoster 
+<ul>
+<li>If you ever want to get back to nova v5.xx, you will need to clean application data <strong><em>and cache</em></strong></li>
+</ul></li>
+</ul>
+
+<h2>I’d like to request a new feature.</h2>
+
+<p>Feel free to join our <a href="https://www.reddit.com/r/NovaVideoPlayer">Reddit community</a> or open a feature request on <a href="https://github.com/nova-video-player/aos-AVP/issues">github project issue</a> .</p>
+
+<h2>I'd like to report a bug</h2>
+
+<p>When discussing an issue on reddit, it is best also to report it on <a href="https://github.com/nova-video-player/aos-AVP/issues">github project issue</a> with details about your specific configuration/setup/hardware/Android version and if possible a way or link or sample to reproduce the problem. It is also best to include logs to help figuring out the problem (<a href="https://github.com/nova-video-player/aos-AVP/wiki/Debugging">debugging procedure</a>).</p>
+
+<h2>How can I contribute in the development?</h2>
+
+<p>Source code is available on <a href="https://github.com/nova-video-player/aos-AVP">github</a> and pull requests are welcome.</p>
+
+<h2>The application does not support my language, how can I help?</h2>
+
+<p>You are welcome to contribute to the translation of the application via <a href="https://crowdin.com/project/nova-video-player">crowdin service</a></p>
+
+<h2>Where to find Nova Video Player application privacy policy?</h2>
+
+<p>Nova application privacy policy can be found <a href="https://home.courville.org/nova_video_player-faq/privacy.html">here</a>.</p>
+
+<h2>I want to sponsor Nova.</h2>
+
+<p>You are always welcome to show your gratitude and appreciation to the developers of this application through a donation via <a href="https://liberapay.com/NovaVideoPlayer/donate">liberapay</a> or <a href="https://github.com/sponsors/courville">github sponsor</a> or <a href="https://opencollective.com/novavideoplayer">opencollective</a>.</p>
+    </section>
+  </div>
+</body>
+</html>

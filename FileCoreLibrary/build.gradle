@@ -1,0 +1,110 @@
+apply plugin: 'com.android.library'
+
+repositories {
+    google()
+    mavenCentral()
+    mavenLocal()
+}
+
+allprojects {
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        }
+        // to generate the required jar dependencies e.g. cling seamless
+        preBuild.dependsOn(ndkBuild)
+        compileDebugJavaWithJavac.dependsOn(ndkBuild)
+        compileReleaseJavaWithJavac.dependsOn(ndkBuild)
+    }
+}
+
+android {
+    compileSdkVersion 31
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            resources.srcDirs = ['src']
+            aidl.srcDirs = ['src']
+            renderscript.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+            //tmp prebuilt jni
+            jniLibs.srcDirs = ['libs']
+            //disable automatic jni build rules
+            jni.srcDirs = []
+        }
+    }
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 31
+        multiDexEnabled true
+    }
+
+    tasks.withType(JavaCompile) {
+        compileTask -> compileTask.dependsOn ndkBuild
+    }
+    clean.dependsOn 'ndkClean'
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+task ndkBuild(type:Exec) {
+    workingDir = "../"
+
+    outputs.upToDateWhen {
+        file("libs/arm64-v8a/libc++_shared.so").exists()
+        file("libs/armeabi-v7a/libc++_shared.so").exists()
+        file("libs/x86/libc++_shared.so").exists()
+        file("libs/x86_64/libc++_shared.so").exists()
+        file("libs/jcifs-ng.jar").exists()
+    }
+    //OutputFiles/OutputDirectories
+    List<String> myCmd = new ArrayList<String>()
+    myCmd.add("make")
+    myCmd.add("native_libnativehelper")
+    myCmd.add("native_build_FileCoreLibrary")
+    myCmd.add("jcifs-ng")
+    commandLine myCmd
+}
+
+task ndkClean(type:Exec) {
+    workingDir = "../"
+    List<String> myCmd = new ArrayList<String>()
+    myCmd.add("make")
+    myCmd.add("native_clean")
+    //myCmd.add("external_clean_jcifs-ng")
+    commandLine myCmd
+}
+
+// ensure there is no loggers other than logback
+configurations.all {
+    exclude group: "org.slf4j", module: "slf4j-log4j12"
+    exclude group: "log4j", module: "log4j"
+}
+
+dependencies {
+    /*
+    api ('eu.agno3.jcifs:jcifs-ng:2.1.5') {
+        exclude group: "org.bouncycastle", module: "bcprov-jdk15on"
+    }
+     */
+    api files('libs/jcifs-ng.jar')
+    // jcifs-ng depends on bouncycastle (automated when using maven repo)
+    api 'org.bouncycastle:bcprov-jdk15to18:1.69'
+    implementation 'oro:oro:2.0.8'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'androidx.preference:preference:1.2.0'
+    implementation 'commons-net:commons-net:3.8.0'
+    implementation 'org.slf4j:slf4j-api:1.7.32'
+    implementation 'com.github.tony19:logback-android:2.0.0'
+    // TODO use https://github.com/mwiede/jsch instead of https://sourceforge.net/projects/jsch/files/jsch/
+    // see http://www.matez.de/index.php/2020/06/22/the-future-of-jsch-without-ssh-rsa/
+    // implementation 'com.github.mwiede:jsch:0.1.70'
+}

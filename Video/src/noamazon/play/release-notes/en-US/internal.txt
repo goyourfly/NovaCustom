@@ -1,0 +1,12 @@
+- Attempt to fix fdroid build
+- Fix tvshow rescrape having same name
+- Fix widget not launching video
+- STOP remote button stops player
+- Make rescan storage setting work
+- Scrobbler threshold raised to 90%
+- Fix crash changing info on tvshow
+- Add adult scrape hidden option NOT on google play
+- Blacklist nova scrape files for initial video import
+- Swedish translations
+- Fix NFO processing not working on SMB share
+- Fix scrape in loop

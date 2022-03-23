@@ -1,0 +1,15 @@
+bin
+gen
+build
+.gradle
+.settings/
+local.properties
+tests/.classpath
+tests/.project
+tests/project.properties
+libs/armeabi-v7a
+*.iml
+.idea
+keystore.properties
+nova.json
+crowdin.yml
