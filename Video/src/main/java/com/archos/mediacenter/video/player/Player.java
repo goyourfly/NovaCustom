@@ -1352,7 +1352,7 @@ public class Player implements IPlayerControl,
         private long t1;
         private DatagramSocket clientSocket;
         private InetAddress ipAddress;
-        private int port = 21234;
+        private int port = 21324;
         private byte[] sendData;
 
         public WLEDHandler(Looper looper, Player player) {
@@ -1360,7 +1360,7 @@ public class Player implements IPlayerControl,
             this.player = player;
             try {
                 clientSocket = new DatagramSocket();
-                ipAddress = InetAddress.getByName("10.10.20.148");
+                ipAddress = InetAddress.getByName("192.168.2.247");
             } catch (SocketException | UnknownHostException e) {
                 e.printStackTrace();
             }
@@ -1381,11 +1381,11 @@ public class Player implements IPlayerControl,
                 bitmap = Bitmap.createBitmap(mSurfaceWidth / 4, mSurfaceHeight / 4, Bitmap.Config.ARGB_8888);
                 bitmap2 = Bitmap.createBitmap(mSurfaceWidth / 4, mSurfaceHeight / 4, Bitmap.Config.ARGB_8888);
                 canvas = new Canvas(bitmap2);
-                wledList = PreviewView.measureRect(bitmap.getWidth(), bitmap.getHeight(), 20, 40, 20, 40,
-                        40, 40, 40, 40, 0);
+                wledList = PreviewView.measureRect(bitmap.getWidth(), bitmap.getHeight(), 40, 69, 40, 0,
+                        10, 10, 10, 10, 0);
                 sendData = new byte[2 + wledList.size() * 4];
-                sendData[0] = 1;
-                sendData[1] = 2;
+                sendData[0] = 0x01;
+                sendData[1] = 0x05;
             }
             if (mSurfaceHolder == null || mSurfaceHolder.getSurface() == null){
                 return;
