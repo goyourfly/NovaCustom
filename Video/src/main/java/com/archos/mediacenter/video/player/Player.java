@@ -50,6 +50,7 @@ import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 
 import com.archos.mediacenter.video.R;
+import com.archos.mediacenter.video.leanback.settings.VideoSettingsWledActivity;
 import com.archos.mediacenter.video.utils.VideoMetadata;
 import com.archos.mediacenter.video.utils.VideoPreferencesCommon;
 import com.archos.mediacenter.video.widget.PreviewView;
@@ -1354,16 +1355,25 @@ public class Player implements IPlayerControl,
         private InetAddress ipAddress;
         private int port = 21324;
         private byte[] sendData;
-
+        private VideoSettingsWledActivity.WledInfo info;
         public WLEDHandler(Looper looper, Player player) {
             super(looper);
             this.player = player;
             try {
+                info = VideoSettingsWledActivity.read();
+                port = info.port;
                 clientSocket = new DatagramSocket();
-                ipAddress = InetAddress.getByName("192.168.2.247");
+                ipAddress = InetAddress.getByName(info.ip);
             } catch (SocketException | UnknownHostException e) {
                 e.printStackTrace();
             }
+        }
+
+        private static float[] hsv = new float[3];
+        private static int getBrightnessColor(final int r, final int g, final int b, final int v) {
+            Color.RGBToHSV(128, 0, 0, hsv);
+            hsv[2] = v * 1F / 256;
+            return Color.HSVToColor(hsv);
         }
 
         @Override
@@ -1381,8 +1391,8 @@ public class Player implements IPlayerControl,
                 bitmap = Bitmap.createBitmap(mSurfaceWidth / 4, mSurfaceHeight / 4, Bitmap.Config.ARGB_8888);
                 bitmap2 = Bitmap.createBitmap(mSurfaceWidth / 4, mSurfaceHeight / 4, Bitmap.Config.ARGB_8888);
                 canvas = new Canvas(bitmap2);
-                wledList = PreviewView.measureRect(bitmap.getWidth(), bitmap.getHeight(), 40, 69, 40, 0,
-                        10, 10, 10, 10, 0);
+                wledList = PreviewView.measureRect(bitmap.getWidth(), bitmap.getHeight(), info.leftNum, info.topNum, info.rightNum, info.bottomNum,
+                        info.leftPadding,info.topPadding,info.rightPadding,info.bottomPadding,info.inset);
                 sendData = new byte[2 + wledList.size() * 4];
                 sendData[0] = 0x01;
                 sendData[1] = 0x05;
@@ -1424,6 +1434,12 @@ public class Player implements IPlayerControl,
                         r = r / count;
                         g = g / count;
                         b = b / count;
+
+                        int newColor = getBrightnessColor(r,g,b,info.brightness);
+                        r = Color.red(newColor);
+                        g = Color.green(newColor);
+                        b = Color.blue(newColor);
+
                         int color = Color.rgb(r, g, b);
                         paint.setColor(color);
                         canvas.drawRect(rect, paint);

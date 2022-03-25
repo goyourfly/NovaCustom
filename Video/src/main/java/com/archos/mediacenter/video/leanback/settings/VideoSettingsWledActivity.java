@@ -8,6 +8,7 @@ import android.widget.EditText;
 
 import com.archos.mediacenter.video.R;
 import com.archos.mediacenter.video.leanback.LeanbackActivity;
+import com.archos.mediacenter.video.widget.PreviewView;
 import com.google.gson.Gson;
 
 import io.paperdb.Paper;
@@ -34,6 +35,23 @@ public class VideoSettingsWledActivity extends LeanbackActivity {
         EditText etBottomPadding = findViewById(R.id.et_bottom_padding);
 
         EditText etInset = findViewById(R.id.et_inset);
+        EditText etBrightness = findViewById(R.id.et_brightness);
+
+        WledInfo info = read();
+        etIp.setText(info.ip);
+        etPort.setText(String.valueOf(info.port));
+        etLeftNum.setText(String.valueOf(info.leftNum));
+        etTopNum.setText(String.valueOf(info.topNum));
+        etRightNum.setText(String.valueOf(info.rightNum));
+        etBottomNum.setText(String.valueOf(info.bottomNum));
+        etLeftPadding.setText(String.valueOf(info.leftPadding));
+        etTopPadding.setText(String.valueOf(info.topPadding));
+        etRightPadding.setText(String.valueOf(info.rightPadding));
+        etBottomPadding.setText(String.valueOf(info.bottomPadding));
+        etInset.setText(String.valueOf(info.inset));
+        etBrightness.setText(String.valueOf(info.brightness));
+
+        PreviewView preview = findViewById(R.id.v_preview);
 
         findViewById(R.id.btn_save).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,8 +71,10 @@ public class VideoSettingsWledActivity extends LeanbackActivity {
                 info.bottomPadding = Integer.parseInt(etBottomPadding.getText().toString());
 
                 info.inset = Integer.parseInt(etInset.getText().toString());
+                info.brightness = Integer.parseInt(etBrightness.getText().toString());
 
                 save(info);
+                preview.invalidate();
             }
         });
     }
@@ -65,6 +85,21 @@ public class VideoSettingsWledActivity extends LeanbackActivity {
 
     public static WledInfo read() {
         WledInfo wledInfo = Paper.book().read("wled_config");
+        if (wledInfo == null){
+            wledInfo = new WledInfo();
+            wledInfo.ip = "192.168.2.247";
+            wledInfo.port = 21324;
+            wledInfo.leftNum = 40;
+            wledInfo.topNum = 69;
+            wledInfo.rightNum = 40;
+            wledInfo.bottomNum = 0;
+            wledInfo.leftPadding = 10;
+            wledInfo.topPadding = 10;
+            wledInfo.rightPadding = 10;
+            wledInfo.bottomPadding = 0;
+            wledInfo.inset = 0;
+            wledInfo.brightness = 100;
+        }
         return wledInfo;
     }
 
@@ -87,5 +122,6 @@ public class VideoSettingsWledActivity extends LeanbackActivity {
         public int rightPadding;
         public int bottomPadding;
         public int inset;
+        public int brightness;
     }
 }

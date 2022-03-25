@@ -11,6 +11,8 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import com.archos.mediacenter.video.leanback.settings.VideoSettingsWledActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,7 +81,9 @@ public class PreviewView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        list = measureRect(getMeasuredWidth(), getMeasuredHeight(), 40, 60, 40, 60,40,40,40,40,0);
+        VideoSettingsWledActivity.WledInfo info = VideoSettingsWledActivity.read();
+        list = measureRect(getMeasuredWidth(), getMeasuredHeight(), info.leftNum, info.topNum, info.rightNum, info.bottomNum,
+                info.leftPadding,info.topPadding,info.rightPadding,info.bottomPadding,info.inset);
     }
 
     public void setList(List<Rect> list) {
