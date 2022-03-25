@@ -1371,8 +1371,8 @@ public class Player implements IPlayerControl,
 
         private static float[] hsv = new float[3];
         private static int getBrightnessColor(final int r, final int g, final int b, final int v) {
-            Color.RGBToHSV(128, 0, 0, hsv);
-            hsv[2] = v * 1F / 256;
+            Color.RGBToHSV(r, g, b, hsv);
+            hsv[2] = v * 1F / 255;
             return Color.HSVToColor(hsv);
         }
 
