@@ -57,6 +57,7 @@ import com.squareup.picasso.Picasso;
 
 import httpimage.FileSystemPersistence;
 import httpimage.HttpImageManager;
+import io.paperdb.Paper;
 
 import org.acra.*;
 import org.acra.config.CoreConfigurationBuilder;
@@ -197,6 +198,7 @@ public class CustomApplication extends Application {
         // must be done after context is available
         log = LoggerFactory.getLogger(CustomApplication.class);
 
+        Paper.init(this);
         // must be done before sambaDiscovery otherwise no context for jcifs
         new Thread(() -> {
             // create instance of jcifsUtils in order to pass context and initial preference
