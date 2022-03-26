@@ -79,6 +79,10 @@ public class PreviewView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        refresh();
+    }
+
+    public void refresh(){
         VideoSettingsWledActivity.WledInfo info = VideoSettingsWledActivity.read();
         list = measureRect(getMeasuredWidth(), getMeasuredHeight(), info.leftNum, info.topNum, info.rightNum, info.bottomNum,
                 info.leftPadding,info.topPadding,info.rightPadding,info.bottomPadding,info.leftOffset,info.topOffset,info.rightOffset,info.bottomOffset);

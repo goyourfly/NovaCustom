@@ -101,6 +101,7 @@ public class VideoSettingsWledActivity extends AppCompatActivity {
                 info.brightness = Integer.parseInt(etBrightness.getText().toString());
 
                 save(info);
+                preview.refresh();
                 preview.postInvalidate();
             }
         });
