@@ -1572,7 +1572,7 @@
             android:theme="@style/MyLeanbackTheme.Preferences" />
         <activity
             android:name="com.archos.mediacenter.video.leanback.settings.VideoSettingsWledActivity"
-            android:theme="@style/MyLeanbackTheme" />
+            android:theme="@style/ArchosThemeBlueNoActionBar"/>
 
         <activity
             android:name="com.archos.mediacenter.video.leanback.settings.VideoSettingsLicencesActivity"

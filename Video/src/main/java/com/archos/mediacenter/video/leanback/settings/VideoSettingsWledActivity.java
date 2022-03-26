@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.archos.mediacenter.video.R;
 import com.archos.mediacenter.video.leanback.LeanbackActivity;
@@ -14,7 +16,7 @@ import com.archos.mediacenter.video.widget.PreviewView;
 
 import io.paperdb.Paper;
 
-public class VideoSettingsWledActivity extends LeanbackActivity {
+public class VideoSettingsWledActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
