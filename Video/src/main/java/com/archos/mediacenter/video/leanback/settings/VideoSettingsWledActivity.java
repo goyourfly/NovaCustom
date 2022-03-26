@@ -1,15 +1,16 @@
 package com.archos.mediacenter.video.leanback.settings;
 
-import android.content.Context;
-import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-
+import android.widget.ImageView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import com.archos.mediacenter.video.R;
 import com.archos.mediacenter.video.leanback.LeanbackActivity;
+import com.archos.mediacenter.video.player.Player;
 import com.archos.mediacenter.video.widget.PreviewView;
-import com.google.gson.Gson;
 
 import io.paperdb.Paper;
 
@@ -20,6 +21,14 @@ public class VideoSettingsWledActivity extends LeanbackActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_settings_wled);
         overridePendingTransition(R.anim.slide_in_from_right, 0);
+
+        ImageView ivBack = findViewById(R.id.iv_back);
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         EditText etIp = findViewById(R.id.et_ip_address);
         EditText etPort = findViewById(R.id.et_port);
@@ -34,7 +43,11 @@ public class VideoSettingsWledActivity extends LeanbackActivity {
         EditText etRightPadding = findViewById(R.id.et_right_padding);
         EditText etBottomPadding = findViewById(R.id.et_bottom_padding);
 
-        EditText etInset = findViewById(R.id.et_inset);
+        EditText etLeftOffset = findViewById(R.id.et_left_offset);
+        EditText etTopOffset = findViewById(R.id.et_top_offset);
+        EditText etRightOffset = findViewById(R.id.et_right_offset);
+        EditText etBottomOffset = findViewById(R.id.et_bottom_offset);
+
         EditText etBrightness = findViewById(R.id.et_brightness);
 
         WledInfo info = read();
@@ -44,16 +57,25 @@ public class VideoSettingsWledActivity extends LeanbackActivity {
         etTopNum.setText(String.valueOf(info.topNum));
         etRightNum.setText(String.valueOf(info.rightNum));
         etBottomNum.setText(String.valueOf(info.bottomNum));
+
         etLeftPadding.setText(String.valueOf(info.leftPadding));
         etTopPadding.setText(String.valueOf(info.topPadding));
         etRightPadding.setText(String.valueOf(info.rightPadding));
         etBottomPadding.setText(String.valueOf(info.bottomPadding));
-        etInset.setText(String.valueOf(info.inset));
+
+        etLeftOffset.setText(String.valueOf(info.leftOffset));
+        etTopOffset.setText(String.valueOf(info.topOffset));
+        etRightOffset.setText(String.valueOf(info.rightOffset));
+        etBottomOffset.setText(String.valueOf(info.bottomOffset));
         etBrightness.setText(String.valueOf(info.brightness));
 
         PreviewView preview = findViewById(R.id.v_preview);
+        Bitmap bitmap = Player.WLEDHandler.bitmap;
+        preview.setBackground(new BitmapDrawable(bitmap));
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) preview.getLayoutParams();
+        params.dimensionRatio = "h," + bitmap.getWidth() + ":" + bitmap.getHeight();
 
-        findViewById(R.id.btn_save).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.iv_done).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 WledInfo info = new WledInfo();
@@ -70,7 +92,11 @@ public class VideoSettingsWledActivity extends LeanbackActivity {
                 info.rightPadding = Integer.parseInt(etRightPadding.getText().toString());
                 info.bottomPadding = Integer.parseInt(etBottomPadding.getText().toString());
 
-                info.inset = Integer.parseInt(etInset.getText().toString());
+                info.leftOffset = Integer.parseInt(etLeftOffset.getText().toString());
+                info.topOffset = Integer.parseInt(etTopOffset.getText().toString());
+                info.rightOffset = Integer.parseInt(etRightOffset.getText().toString());
+                info.bottomOffset = Integer.parseInt(etBottomOffset.getText().toString());
+
                 info.brightness = Integer.parseInt(etBrightness.getText().toString());
 
                 save(info);
@@ -97,7 +123,10 @@ public class VideoSettingsWledActivity extends LeanbackActivity {
             wledInfo.topPadding = 10;
             wledInfo.rightPadding = 10;
             wledInfo.bottomPadding = 0;
-            wledInfo.inset = 0;
+            wledInfo.leftOffset = 0;
+            wledInfo.topOffset = 0;
+            wledInfo.rightOffset = 0;
+            wledInfo.bottomOffset = 0;
             wledInfo.brightness = 100;
         }
         return wledInfo;
@@ -121,7 +150,10 @@ public class VideoSettingsWledActivity extends LeanbackActivity {
         public int topPadding;
         public int rightPadding;
         public int bottomPadding;
-        public int inset;
+        public int leftOffset;
+        public int topOffset;
+        public int rightOffset;
+        public int bottomOffset;
         public int brightness;
     }
 }

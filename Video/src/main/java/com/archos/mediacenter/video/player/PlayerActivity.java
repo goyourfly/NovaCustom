@@ -793,19 +793,19 @@ public class PlayerActivity extends AppCompatActivity implements PlayerControlle
         }
     }
 
-    private ImageView ivPreview;
-
-    public void previewBitmap(Bitmap bitmap) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (ivPreview == null) {
-                    ivPreview = findViewById(R.id.ivPreview);
-                }
-                ivPreview.setImageBitmap(bitmap);
-            }
-        });
-    }
+//    private ImageView ivPreview;
+//
+//    public void previewBitmap(Bitmap bitmap) {
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (ivPreview == null) {
+//                    ivPreview = findViewById(R.id.ivPreview);
+//                }
+//                ivPreview.setImageBitmap(bitmap);
+//            }
+//        });
+//    }
 
     @Override
     protected void onStart() {

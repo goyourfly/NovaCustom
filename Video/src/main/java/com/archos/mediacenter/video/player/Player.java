@@ -1345,16 +1345,20 @@ public class Player implements IPlayerControl,
     public static class WLEDHandler extends Handler {
         private Player player;
 
-        private Bitmap bitmap;
-        private Bitmap bitmap2;
+        public static Bitmap bitmap;
+//        private Bitmap bitmap2;
         private Paint paint = new Paint();
-        private Canvas canvas;
+//        private Canvas canvas;
         private List<Rect> wledList;
         private long t1;
         private DatagramSocket clientSocket;
         private InetAddress ipAddress;
         private int port = 21324;
         private byte[] sendData;
+        private int leftOffset = 0;
+        private int topOffset = 0;
+        private int rightOffset = 0;
+        private int bottomOffset = 0;
         private VideoSettingsWledActivity.WledInfo info;
         public WLEDHandler(Looper looper, Player player) {
             super(looper);
@@ -1389,13 +1393,8 @@ public class Player implements IPlayerControl,
             Context mContext = player.mContext;
             if (bitmap == null) {
                 bitmap = Bitmap.createBitmap(mSurfaceWidth / 4, mSurfaceHeight / 4, Bitmap.Config.ARGB_8888);
-                bitmap2 = Bitmap.createBitmap(mSurfaceWidth / 4, mSurfaceHeight / 4, Bitmap.Config.ARGB_8888);
-                canvas = new Canvas(bitmap2);
-                wledList = PreviewView.measureRect(bitmap.getWidth(), bitmap.getHeight(), info.leftNum, info.topNum, info.rightNum, info.bottomNum,
-                        info.leftPadding,info.topPadding,info.rightPadding,info.bottomPadding,info.inset);
-                sendData = new byte[2 + wledList.size() * 4];
-                sendData[0] = 0x01;
-                sendData[1] = 0x05;
+//                bitmap2 = Bitmap.createBitmap(mSurfaceWidth / 4, mSurfaceHeight / 4, Bitmap.Config.ARGB_8888);
+//                canvas = new Canvas(bitmap2);
             }
             if (mSurfaceHolder == null || mSurfaceHolder.getSurface() == null){
                 return;
@@ -1406,17 +1405,15 @@ public class Player implements IPlayerControl,
                     if (code != PixelCopy.SUCCESS) {
                         return;
                     }
-                    String name = "img_" + System.currentTimeMillis();
-                    File file = new File(mContext.getCacheDir(), name + ".jpg");
-                    File file2 = new File(mContext.getCacheDir(), name + "_2.jpg");
-//                    try {
-//                        FileOutputStream fileOutputStream = new FileOutputStream(file);
-//                        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, fileOutputStream);
-//                        fileOutputStream.close();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+
+                    if (wledList == null){
+                        wledList = PreviewView.measureRect(bitmap.getWidth(), bitmap.getHeight(), info.leftNum, info.topNum, info.rightNum, info.bottomNum,
+                                info.leftPadding,info.topPadding,info.rightPadding,info.bottomPadding,leftOffset,topOffset,rightOffset,bottomOffset);
+                        sendData = new byte[2 + wledList.size() * 4];
+                        sendData[0] = 0x01;
+                        sendData[1] = 0x05;
+                    }
+
                     for (int i = 0; i < wledList.size(); i++) {
                         Rect rect = wledList.get(i);
                         int[] pixels = new int[rect.width() * rect.height()];
@@ -1442,7 +1439,7 @@ public class Player implements IPlayerControl,
 
                         int color = Color.rgb(r, g, b);
                         paint.setColor(color);
-                        canvas.drawRect(rect, paint);
+//                        canvas.drawRect(rect, paint);
 
                         sendData[2 + i * 4] = (byte) i;
                         sendData[3 + i * 4] = (byte) r;
@@ -1450,14 +1447,7 @@ public class Player implements IPlayerControl,
                         sendData[5 + i * 4] = (byte) b;
                     }
 
-                    ((PlayerActivity) mContext).previewBitmap(bitmap2);
-//                    try {
-//                        FileOutputStream fileOutputStream = new FileOutputStream(file2);
-//                        bitmap2.compress(Bitmap.CompressFormat.JPEG, 70, fileOutputStream);
-//                        fileOutputStream.close();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
+//                    ((PlayerActivity) mContext).previewBitmap(bitmap2);
                     Log.d("Player", "onPixelCopyFinished:" + code + ",fps:" + (System.currentTimeMillis() - t1));
                     try {
                         clientSocket.send(new DatagramPacket(sendData, sendData.length, ipAddress, port));

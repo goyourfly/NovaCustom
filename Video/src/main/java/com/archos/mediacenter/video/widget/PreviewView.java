@@ -33,48 +33,46 @@ public class PreviewView extends View {
     private List<Rect> list = new ArrayList();
 
 
-    public static List<Rect> measureRect(int w, int h, int leftNum, int topNum, int rightNum, int bottomNum, int paddingLeft, int paddingTop, int paddingRight, int paddingBottom, int inset) {
+    public static List<Rect> measureRect(int w, int h, int leftNum, int topNum, int rightNum, int bottomNum,
+                                         int paddingLeft, int paddingTop, int paddingRight, int paddingBottom,
+                                         int leftOffset,int topOffset,int rightOffset,int bottomOffset) {
         List<Rect> list = new ArrayList<>();
         // left
         if (leftNum > 0) {
             float sampleSize = (h - paddingTop - paddingBottom) * 1F / leftNum;
             for (int i = leftNum - 1; i >= 0; i--) {
-                int x = inset;
+                int x = leftOffset;
                 int y = (int) (paddingTop + i * sampleSize);
                 list.add(new Rect(x, y, (int)(x + sampleSize), (int)(y + sampleSize)));
             }
         }
-        Log.d("fkdlsaf:", "" + list.size());
         // top
         if (topNum > 0) {
             float sampleSize = (w - paddingLeft - paddingRight) * 1F / topNum;
             for (int i = 0; i < topNum; i++) {
                 int x = (int) (paddingLeft + sampleSize * i);
-                int y = inset;
+                int y = topOffset;
                 list.add(new Rect(x, y, (int)(x + sampleSize), (int)(y + sampleSize)));
             }
         }
-        Log.d("fkdlsaf:", "" + list.size());
         // right
         if (rightNum > 0) {
             float sampleSize = (h - paddingTop - paddingBottom) * 1F / rightNum;
             for (int i = 0; i < rightNum; i++) {
-                int x = (int) (w - sampleSize - inset - 1);
+                int x = (int) (w - sampleSize - rightOffset - 1);
                 int y = (int) (paddingTop + i * sampleSize);
                 list.add(new Rect(x, y, (int)(x + sampleSize), (int)(y + sampleSize)));
             }
         }
-        Log.d("fkdlsaf:", "" + list.size());
         // bottom
         if (bottomNum > 0) {
             float sampleSize = (w - paddingLeft - paddingRight) * 1F / bottomNum;
             for (int i = bottomNum - 1; i >= 0; i--) {
                 int x = (int) (paddingLeft + sampleSize * i);
-                int y = (int) (h - sampleSize - inset - 1);
+                int y = (int) (h - sampleSize - bottomOffset - 1);
                 list.add(new Rect(x, y, (int)(x + sampleSize), (int)(y + sampleSize)));
             }
         }
-        Log.d("fkdlsaf:", "" + list.size());
         return list;
     }
 
@@ -83,7 +81,7 @@ public class PreviewView extends View {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         VideoSettingsWledActivity.WledInfo info = VideoSettingsWledActivity.read();
         list = measureRect(getMeasuredWidth(), getMeasuredHeight(), info.leftNum, info.topNum, info.rightNum, info.bottomNum,
-                info.leftPadding,info.topPadding,info.rightPadding,info.bottomPadding,info.inset);
+                info.leftPadding,info.topPadding,info.rightPadding,info.bottomPadding,info.leftOffset,info.topOffset,info.rightOffset,info.bottomOffset);
     }
 
     public void setList(List<Rect> list) {
@@ -99,7 +97,7 @@ public class PreviewView extends View {
         super.onDraw(canvas);
         paint.setColor(0x44FF0000);
         paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(2);
+        paint.setStrokeWidth(3);
         for (Rect rect : list) {
             canvas.drawRect(rect, paint);
         }
