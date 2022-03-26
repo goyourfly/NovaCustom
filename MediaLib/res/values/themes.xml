@@ -11,6 +11,14 @@
         <item name="alertDialogTheme">@style/Theme.AlertDialog</item>
     </style>
 
+    <style name="ArchosThemeNoActionBar" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/lightblue500</item>
+        <item name="colorPrimaryDark">#002642</item>
+        <item name="colorAccent">@color/lightblue400</item>
+        <item name="android:navigationBarColor">#001b30</item>
+        <item name="alertDialogTheme">@style/Theme.AlertDialog</item>
+    </style>
+
     <style name="Widget.Material.ActionBar.Archos" parent="Widget.AppCompat.ActionBar">
         <item name="background">@null</item>
     </style>

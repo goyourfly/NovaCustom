@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.archos.mediacenter.video.R;
-import com.archos.mediacenter.video.leanback.LeanbackActivity;
 import com.archos.mediacenter.video.player.Player;
 import com.archos.mediacenter.video.widget.PreviewView;
 
@@ -102,7 +101,7 @@ public class VideoSettingsWledActivity extends AppCompatActivity {
                 info.brightness = Integer.parseInt(etBrightness.getText().toString());
 
                 save(info);
-                preview.invalidate();
+                preview.postInvalidate();
             }
         });
     }
