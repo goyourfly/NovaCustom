@@ -10,6 +10,7 @@
         android:id="@+id/iv_back"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:background="?selectableItemBackgroundBorderless"
         android:padding="10dp"
         android:src="@drawable/ic_baseline_arrow_back_24"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -18,12 +19,14 @@
 
     <CheckBox
         android:id="@+id/cb_debug"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:padding="10dp"
-        android:text="Debug"
-        android:contentDescription="Debug"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:src="@drawable/ic_baseline_done_24"
+        android:text="Debug"
+        android:textColor="@color/accent"
+        android:textSize="14sp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="@id/iv_done"
         app:layout_constraintRight_toLeftOf="@id/iv_done"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,6 +34,7 @@
         android:id="@+id/iv_done"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:background="?selectableItemBackgroundBorderless"
         android:padding="10dp"
         android:src="@drawable/ic_baseline_done_24"
         app:layout_constraintRight_toRightOf="parent"
