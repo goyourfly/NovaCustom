@@ -933,6 +933,9 @@ public class PlayerActivity extends AppCompatActivity implements PlayerControlle
         }
 
         mWasInPictureInPicture = false;
+        if (mPlayer != null){
+            mPlayer.refreshInfo();
+        }
     }
 
     @Override

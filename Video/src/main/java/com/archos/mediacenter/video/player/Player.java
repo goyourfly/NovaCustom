@@ -1241,6 +1241,12 @@ public class Player implements IPlayerControl,
         }
     }
 
+    public void refreshInfo(){
+        if (wledHandler != null){
+            wledHandler.refreshInfo();
+        }
+    }
+
     public void onAllSeekComplete(IMediaPlayer mp) {
         mIsBusy = false;
         if (mUpdateMetadata) {
@@ -1365,12 +1371,20 @@ public class Player implements IPlayerControl,
             super(looper);
             this.player = player;
             try {
+                clientSocket = new DatagramSocket();
+            } catch (SocketException e) {
+                e.printStackTrace();
+            }
+            refreshInfo();
+        }
+
+        public void refreshInfo(){
+            try {
                 info = VideoSettingsWledActivity.read();
                 port = info.port;
                 debug = info.debug;
-                clientSocket = new DatagramSocket();
                 ipAddress = InetAddress.getByName(info.ip);
-            } catch (SocketException | UnknownHostException e) {
+            } catch (UnknownHostException e) {
                 e.printStackTrace();
             }
         }
