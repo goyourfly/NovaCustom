@@ -1384,6 +1384,8 @@ public class Player implements IPlayerControl,
                 port = info.port;
                 debug = info.debug;
                 ipAddress = InetAddress.getByName(info.ip);
+                bitmap = null;
+                bitmap2 = null;
             } catch (UnknownHostException e) {
                 e.printStackTrace();
             }
