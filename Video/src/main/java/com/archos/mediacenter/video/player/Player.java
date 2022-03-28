@@ -120,7 +120,6 @@ public class Player implements IPlayerControl,
     private static final int STATE_PLAYING = 5;
     private static final int STATE_PAUSED = 6;
     private static final int STATE_PLAYBACK_COMPLETED = 7;
-    public static final boolean DEBUG = true;
 
     // mCurrentState is a PlayerView object's current state.
     // mTargetState is the state that a method caller intends to reach.
@@ -1360,6 +1359,7 @@ public class Player implements IPlayerControl,
         private int topOffset = 0;
         private int rightOffset = 0;
         private int bottomOffset = 0;
+        private boolean debug;
         private VideoSettingsWledActivity.WledInfo info;
         public WLEDHandler(Looper looper, Player player) {
             super(looper);
@@ -1367,6 +1367,7 @@ public class Player implements IPlayerControl,
             try {
                 info = VideoSettingsWledActivity.read();
                 port = info.port;
+                debug = info.debug;
                 clientSocket = new DatagramSocket();
                 ipAddress = InetAddress.getByName(info.ip);
             } catch (SocketException | UnknownHostException e) {
@@ -1375,15 +1376,15 @@ public class Player implements IPlayerControl,
         }
 
         private static float[] hsv = new float[3];
-        private static int getBrightnessColor(final int r, final int g, final int b, int v) {
-            if (v > 255){
-                v = 255;
+        private static int getBrightnessColor(final int r, final int g, final int b, int brightness) {
+            if (brightness > 255){
+                brightness = 255;
             }
-            if (v < 0){
-                v = 0;
+            if (brightness < 0){
+                brightness = 0;
             }
             Color.RGBToHSV(r, g, b, hsv);
-            hsv[2] =  hsv[2] * v * 1F / 255;
+            hsv[2] =  hsv[2] * brightness * 1F / 255;
             return Color.HSVToColor(hsv);
         }
 
@@ -1400,10 +1401,12 @@ public class Player implements IPlayerControl,
             Context mContext = player.mContext;
             if (bitmap == null) {
                 bitmap = Bitmap.createBitmap(mSurfaceWidth / 4, mSurfaceHeight / 4, Bitmap.Config.ARGB_8888);
-                if (DEBUG) {
-                    bitmap2 = Bitmap.createBitmap(mSurfaceWidth / 4, mSurfaceHeight / 4, Bitmap.Config.ARGB_8888);
-                    canvas = new Canvas(bitmap2);
-                }
+            }
+            if (debug && bitmap2 == null) {
+                bitmap2 = Bitmap.createBitmap(mSurfaceWidth / 4, mSurfaceHeight / 4, Bitmap.Config.ARGB_8888);
+            }
+            if (debug && bitmap2 != null && canvas == null){
+                canvas = new Canvas(bitmap2);
             }
             if (mSurfaceHolder == null || mSurfaceHolder.getSurface() == null){
                 return;
@@ -1441,12 +1444,12 @@ public class Player implements IPlayerControl,
                         g = g / count;
                         b = b / count;
 
-                        int newColor = getBrightnessColor(1,1,1,info.brightness);
+                        int newColor = getBrightnessColor(r,g,b,info.brightness);
                         r = Color.red(newColor);
                         g = Color.green(newColor);
                         b = Color.blue(newColor);
 
-                        if (DEBUG) {
+                        if (debug && canvas != null) {
                             int color = Color.rgb(r, g, b);
                             paint.setColor(color);
                             canvas.drawRect(rect, paint);
@@ -1457,7 +1460,7 @@ public class Player implements IPlayerControl,
                         sendData[4 + i * 4] = (byte) g;
                         sendData[5 + i * 4] = (byte) b;
                     }
-                    if (DEBUG) {
+                    if (debug) {
                         ((PlayerActivity) mContext).previewBitmap(bitmap2);
                         Log.d("Player", "onPixelCopyFinished:" + code + ",fps:" + (System.currentTimeMillis() - t1));
                     }

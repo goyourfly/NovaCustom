@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -50,6 +51,7 @@ public class VideoSettingsWledActivity extends AppCompatActivity {
         EditText etBottomOffset = findViewById(R.id.et_bottom_offset);
 
         EditText etBrightness = findViewById(R.id.et_brightness);
+        CheckBox cbDebug = findViewById(R.id.cb_debug);
 
         WledInfo info = read();
         etIp.setText(info.ip);
@@ -69,12 +71,15 @@ public class VideoSettingsWledActivity extends AppCompatActivity {
         etRightOffset.setText(String.valueOf(info.rightOffset));
         etBottomOffset.setText(String.valueOf(info.bottomOffset));
         etBrightness.setText(String.valueOf(info.brightness));
+        cbDebug.setChecked(info.debug);
 
         PreviewView preview = findViewById(R.id.v_preview);
         Bitmap bitmap = Player.WLEDHandler.bitmap;
-        preview.setBackground(new BitmapDrawable(bitmap));
         ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) preview.getLayoutParams();
-        params.dimensionRatio = "h," + bitmap.getWidth() + ":" + bitmap.getHeight();
+        if (bitmap != null) {
+            preview.setBackground(new BitmapDrawable(bitmap));
+            params.dimensionRatio = "h," + bitmap.getWidth() + ":" + bitmap.getHeight();
+        }
 
         findViewById(R.id.iv_done).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +104,7 @@ public class VideoSettingsWledActivity extends AppCompatActivity {
                 info.bottomOffset = Integer.parseInt(etBottomOffset.getText().toString());
 
                 info.brightness = Integer.parseInt(etBrightness.getText().toString());
+                info.debug = cbDebug.isChecked();
 
                 save(info);
                 preview.refresh();
@@ -130,6 +136,7 @@ public class VideoSettingsWledActivity extends AppCompatActivity {
             wledInfo.rightOffset = 0;
             wledInfo.bottomOffset = 0;
             wledInfo.brightness = 100;
+            wledInfo.debug = false;
         }
         return wledInfo;
     }
@@ -157,5 +164,6 @@ public class VideoSettingsWledActivity extends AppCompatActivity {
         public int rightOffset;
         public int bottomOffset;
         public int brightness;
+        public boolean debug;
     }
 }

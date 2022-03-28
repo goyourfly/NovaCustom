@@ -16,6 +16,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
+    <CheckBox
+        android:id="@+id/cb_debug"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:padding="10dp"
+        android:text="Debug"
+        android:contentDescription="Debug"
+        android:src="@drawable/ic_baseline_done_24"
+        app:layout_constraintRight_toLeftOf="@id/iv_done"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/iv_done"
         android:layout_width="48dp"

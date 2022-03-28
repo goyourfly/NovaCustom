@@ -670,7 +670,8 @@ public class PlayerActivity extends AppCompatActivity implements PlayerControlle
         mResumeFromLast = false;
 
         ivPreview = findViewById(R.id.ivPreview);
-        if (Player.DEBUG){
+        VideoSettingsWledActivity.WledInfo info = VideoSettingsWledActivity.read();
+        if (info.debug){
             ivPreview.setVisibility(View.VISIBLE);
         }
 
@@ -801,9 +802,6 @@ public class PlayerActivity extends AppCompatActivity implements PlayerControlle
     private ImageView ivPreview;
 
     public void previewBitmap(Bitmap bitmap) {
-        if (!Player.DEBUG){
-            return;
-        }
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
