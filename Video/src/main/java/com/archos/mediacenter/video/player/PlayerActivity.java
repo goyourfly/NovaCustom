@@ -669,6 +669,11 @@ public class PlayerActivity extends AppCompatActivity implements PlayerControlle
         mSubtitleInfoController.setAlwayDisplay(true);
         mResumeFromLast = false;
 
+        ivPreview = findViewById(R.id.ivPreview);
+        if (Player.DEBUG){
+            ivPreview.setVisibility(View.VISIBLE);
+        }
+
         // Set the specific player behaviour if playing the demo video
         Intent intent = getIntent();
         mContext = this;
@@ -793,19 +798,19 @@ public class PlayerActivity extends AppCompatActivity implements PlayerControlle
         }
     }
 
-//    private ImageView ivPreview;
-//
-//    public void previewBitmap(Bitmap bitmap) {
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (ivPreview == null) {
-//                    ivPreview = findViewById(R.id.ivPreview);
-//                }
-//                ivPreview.setImageBitmap(bitmap);
-//            }
-//        });
-//    }
+    private ImageView ivPreview;
+
+    public void previewBitmap(Bitmap bitmap) {
+        if (!Player.DEBUG){
+            return;
+        }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ivPreview.setImageBitmap(bitmap);
+            }
+        });
+    }
 
     @Override
     protected void onStart() {
