@@ -84,8 +84,10 @@ public class PreviewView extends View {
 
     public void refresh(){
         VideoSettingsWledActivity.WledInfo info = VideoSettingsWledActivity.read();
-        list = measureRect(getMeasuredWidth(), getMeasuredHeight(), info.leftNum, info.topNum, info.rightNum, info.bottomNum,
-                info.leftPadding,info.topPadding,info.rightPadding,info.bottomPadding,info.leftOffset,info.topOffset,info.rightOffset,info.bottomOffset);
+        list = measureRect(getMeasuredWidth(), getMeasuredHeight(),
+                info.leftNum, info.topNum, info.rightNum, info.bottomNum,
+                info.leftPadding,info.topPadding,info.rightPadding,info.bottomPadding,
+                info.leftOffset,info.topOffset,info.rightOffset,info.bottomOffset);
     }
 
     public void setList(List<Rect> list) {

@@ -1241,8 +1241,8 @@ public class Player implements IPlayerControl,
         }
     }
 
-    public void refreshInfo(){
-        if (wledHandler != null){
+    public void refreshInfo() {
+        if (wledHandler != null) {
             wledHandler.refreshInfo();
         }
     }
@@ -1361,12 +1361,9 @@ public class Player implements IPlayerControl,
         private InetAddress ipAddress;
         private int port = 21324;
         private byte[] sendData;
-        private int leftOffset = 0;
-        private int topOffset = 0;
-        private int rightOffset = 0;
-        private int bottomOffset = 0;
         private boolean debug;
         private VideoSettingsWledActivity.WledInfo info;
+
         public WLEDHandler(Looper looper, Player player) {
             super(looper);
             this.player = player;
@@ -1378,7 +1375,7 @@ public class Player implements IPlayerControl,
             refreshInfo();
         }
 
-        public void refreshInfo(){
+        public void refreshInfo() {
             try {
                 info = VideoSettingsWledActivity.read();
                 port = info.port;
@@ -1386,21 +1383,23 @@ public class Player implements IPlayerControl,
                 ipAddress = InetAddress.getByName(info.ip);
                 bitmap = null;
                 bitmap2 = null;
+                wledList = null;
             } catch (UnknownHostException e) {
                 e.printStackTrace();
             }
         }
 
         private static float[] hsv = new float[3];
+
         private static int getBrightnessColor(final int r, final int g, final int b, int brightness) {
-            if (brightness > 255){
+            if (brightness > 255) {
                 brightness = 255;
             }
-            if (brightness < 0){
+            if (brightness < 0) {
                 brightness = 0;
             }
             Color.RGBToHSV(r, g, b, hsv);
-            hsv[2] =  hsv[2] * brightness * 1F / 255;
+            hsv[2] = hsv[2] * brightness * 1F / 255;
             return Color.HSVToColor(hsv);
         }
 
@@ -1421,10 +1420,10 @@ public class Player implements IPlayerControl,
             if (debug && bitmap2 == null) {
                 bitmap2 = Bitmap.createBitmap(mSurfaceWidth / 4, mSurfaceHeight / 4, Bitmap.Config.ARGB_8888);
             }
-            if (debug && bitmap2 != null && canvas == null){
+            if (debug && bitmap2 != null && canvas == null) {
                 canvas = new Canvas(bitmap2);
             }
-            if (mSurfaceHolder == null || mSurfaceHolder.getSurface() == null){
+            if (mSurfaceHolder == null || mSurfaceHolder.getSurface() == null) {
                 return;
             }
             PixelCopy.request(mSurfaceHolder.getSurface(), bitmap, new PixelCopy.OnPixelCopyFinishedListener() {
@@ -1434,9 +1433,11 @@ public class Player implements IPlayerControl,
                         return;
                     }
 
-                    if (wledList == null){
-                        wledList = PreviewView.measureRect(bitmap.getWidth(), bitmap.getHeight(), info.leftNum, info.topNum, info.rightNum, info.bottomNum,
-                                info.leftPadding,info.topPadding,info.rightPadding,info.bottomPadding,leftOffset,topOffset,rightOffset,bottomOffset);
+                    if (wledList == null) {
+                        wledList = PreviewView.measureRect(bitmap.getWidth(), bitmap.getHeight(),
+                                info.leftNum, info.topNum, info.rightNum, info.bottomNum,
+                                info.leftPadding, info.topPadding, info.rightPadding, info.bottomPadding,
+                                info.leftOffset, info.topOffset, info.rightOffset, info.bottomOffset);
                         sendData = new byte[2 + wledList.size() * 4];
                         sendData[0] = 0x01;
                         sendData[1] = 0x05;
@@ -1460,7 +1461,7 @@ public class Player implements IPlayerControl,
                         g = g / count;
                         b = b / count;
 
-                        int newColor = getBrightnessColor(r,g,b,info.brightness);
+                        int newColor = getBrightnessColor(r, g, b, info.brightness);
                         r = Color.red(newColor);
                         g = Color.green(newColor);
                         b = Color.blue(newColor);

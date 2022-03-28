@@ -670,10 +670,6 @@ public class PlayerActivity extends AppCompatActivity implements PlayerControlle
         mResumeFromLast = false;
 
         ivPreview = findViewById(R.id.ivPreview);
-        VideoSettingsWledActivity.WledInfo info = VideoSettingsWledActivity.read();
-        if (info.debug){
-            ivPreview.setVisibility(View.VISIBLE);
-        }
 
         // Set the specific player behaviour if playing the demo video
         Intent intent = getIntent();
@@ -935,6 +931,12 @@ public class PlayerActivity extends AppCompatActivity implements PlayerControlle
         mWasInPictureInPicture = false;
         if (mPlayer != null){
             mPlayer.refreshInfo();
+        }
+        VideoSettingsWledActivity.WledInfo info = VideoSettingsWledActivity.read();
+        if (info.debug){
+            ivPreview.setVisibility(View.VISIBLE);
+        } else {
+            ivPreview.setVisibility(View.GONE);
         }
     }
 
