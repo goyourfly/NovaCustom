@@ -671,7 +671,6 @@ public class PlayerActivity extends AppCompatActivity implements PlayerControlle
 
         ivPreview = findViewById(R.id.ivPreview);
 
-        setEffect(VideoEffect.EFFECT_NEED_OPENGL);
 
         // Set the specific player behaviour if playing the demo video
         Intent intent = getIntent();
@@ -679,6 +678,7 @@ public class PlayerActivity extends AppCompatActivity implements PlayerControlle
 
         mPlayer = new Player(this, getWindow(), mSurfaceController, false);
 
+        setEffect(VideoEffect.EFFECT_NEED_OPENGL);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) { //detect any kind of rotation, even from 270 to 90°
             DisplayManager.DisplayListener mDisplayListener = new DisplayManager.DisplayListener() {
                 int orientation;
