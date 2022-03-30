@@ -671,6 +671,8 @@ public class PlayerActivity extends AppCompatActivity implements PlayerControlle
 
         ivPreview = findViewById(R.id.ivPreview);
 
+        setEffect(VideoEffect.EFFECT_NEED_OPENGL);
+
         // Set the specific player behaviour if playing the demo video
         Intent intent = getIntent();
         mContext = this;
